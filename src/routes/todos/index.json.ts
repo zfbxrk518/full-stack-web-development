@@ -1,12 +1,9 @@
 import type { RequestHandler } from "@sveltejs/kit";
+import { api } from "./_api";
 
-let todos: Todo[] = [];
 
-export const GET: RequestHandler = (request) => {
-  return {
-    status: 200,
-    body: todos
-  }
+export const GET: RequestHandler = async ({ request }) => {
+  return api(request);
 }
 
 // This part is different from the instructors'. I learned this from a guy of the issues part. 
@@ -28,16 +25,10 @@ export const GET: RequestHandler = (request) => {
 // This part works too. This is the second way to write the post part.
 export const POST: RequestHandler = async ({ request }) => {
 	const formData = await request.formData();
-    todos.push({
+	return api(request, {
+		uid: `${Date.now()}`,
 		created_at: new Date(),
 		text: formData.get('text') as string,
 		done: false
-	});
-	return {
-	  body: formData.get('text') as string,
-	  status: 303,
-	  headers: {
-			location: '/'
-	  }
-	};
-  }
+	})   
+}
