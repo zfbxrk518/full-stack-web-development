@@ -25,7 +25,7 @@ export const GET: RequestHandler = async ({ request }) => {
 // This part works too. This is the second way to write the post part.
 export const POST: RequestHandler<{}, FormData> = (request) => {
 	return api(request, {
-		uid: `${Date.now()}`,
+		
 		created_at: new Date(),
 		text: request.body.get("text"),
 		done: false
